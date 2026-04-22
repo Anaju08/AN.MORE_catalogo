@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -404,12 +403,60 @@ footer {
   </div>
 </div>
 
-<!-- FILTERS -->
-<div class="filters-bar">
-  <button class="filter-btn active" onclick="filtrar('todos')">Todos</button>
-  <button class="filter-btn" onclick="filtrar('disponiveis')">Disponíveis</button>
-  <button class="filter-btn" onclick="filtrar('promocao')">Em Promoção</button>
-  <button class="filter-btn" onclick="filtrar('esgotados')">Esgotados</button>
+<!-- HAMBURGER MENU -->
+<div id="menu-overlay" onclick="fecharMenu()" style="display:none;position:fixed;inset:0;background:rgba(26,22,20,0.55);z-index:500;backdrop-filter:blur(3px);"></div>
+<div id="side-menu" style="
+  position:fixed;top:0;left:-320px;width:300px;height:100vh;
+  background:var(--black);border-right:2px solid var(--gold);
+  z-index:600;transition:left 0.35s cubic-bezier(0.4,0,0.2,1);
+  display:flex;flex-direction:column;overflow-y:auto;
+">
+  <div style="padding:32px 32px 24px;border-bottom:1px solid rgba(184,150,46,0.2);">
+    <div style="font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--gold-light);letter-spacing:0.12em;">An·More</div>
+    <div style="font-size:9px;letter-spacing:0.45em;text-transform:uppercase;color:rgba(240,228,192,0.5);margin-top:4px;">Relógios &amp; Acessórios</div>
+    <button onclick="fecharMenu()" style="position:absolute;top:18px;right:20px;background:none;border:none;color:rgba(240,228,192,0.5);font-size:24px;cursor:pointer;line-height:1;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='rgba(240,228,192,0.5)'">×</button>
+  </div>
+
+  <div style="padding:28px 32px 0;">
+    <div style="font-size:9px;letter-spacing:0.4em;text-transform:uppercase;color:rgba(240,228,192,0.4);margin-bottom:16px;">Categorias</div>
+
+    <button class="menu-item active" id="menu-cat-todos" onclick="filtrarCategoria('todos');fecharMenu()">Todos os Produtos</button>
+    <button class="menu-item" id="menu-cat-relogios" onclick="filtrarCategoria('relogios');fecharMenu()">Relogios</button>
+    <button class="menu-item" id="menu-cat-acessorios" onclick="filtrarCategoria('acessorios');fecharMenu()">Acessorios</button>
+
+    <div style="height:1px;background:rgba(184,150,46,0.15);margin:24px 0;"></div>
+    <div style="font-size:9px;letter-spacing:0.4em;text-transform:uppercase;color:rgba(240,228,192,0.4);margin-bottom:16px;">Filtrar por</div>
+
+    <button class="menu-item active" id="menu-status-todos" onclick="filtrarStatus('todos');fecharMenu()">Todos</button>
+    <button class="menu-item" id="menu-status-disponiveis" onclick="filtrarStatus('disponiveis');fecharMenu()">Disponiveis</button>
+    <button class="menu-item" id="menu-status-promocao" onclick="filtrarStatus('promocao');fecharMenu()">Em Promocao</button>
+    <button class="menu-item" id="menu-status-esgotados" onclick="filtrarStatus('esgotados');fecharMenu()">Esgotados</button>
+
+    <div style="height:1px;background:rgba(184,150,46,0.15);margin:24px 0;"></div>
+
+    <button class="menu-item" onclick="mostrarEntregas();fecharMenu()">Entregas</button>
+  </div>
+</div>
+
+<style>
+.menu-item {
+  display:block; width:100%; text-align:left;
+  padding:13px 0; background:none; border:none; border-bottom:1px solid rgba(184,150,46,0.08);
+  font-family:'Jost',sans-serif; font-size:12px; letter-spacing:0.3em; text-transform:uppercase;
+  color:rgba(240,228,192,0.55); cursor:pointer; transition:color 0.2s;
+}
+.menu-item:hover { color:var(--gold-light); }
+.menu-item.active { color:var(--gold-light); }
+.menu-item.active::before { content:'— '; }
+</style>
+
+<!-- FILTROS -->
+<div style="background:var(--pearl);border-bottom:1px solid var(--pearl3);padding:0 56px;display:flex;align-items:center;overflow-x:auto;white-space:nowrap;-webkit-overflow-scrolling:touch;scrollbar-width:none;">
+  <style>.filters-bar::-webkit-scrollbar{display:none}</style>
+  <button class="filter-btn active" id="cat-todos" onclick="filtrarCategoria('todos')">Todos os Produtos</button>
+  <button class="filter-btn" id="cat-relogios" onclick="filtrarCategoria('relogios')">Relogios</button>
+  <button class="filter-btn" id="cat-acessorios" onclick="filtrarCategoria('acessorios')">Acessorios</button>
+  <button class="filter-btn" id="status-esgotados" onclick="filtrarStatus('esgotados')">Esgotados</button>
   <button class="filter-btn" onclick="mostrarEntregas()" id="btn-entregas">Entregas</button>
 </div>
 
@@ -484,7 +531,8 @@ const db  = getFirestore(app);
 const DOC_REF = doc(db, "catalogo", "dados");
 
 let todosProdutos = [];
-let filtroAtual   = 'todos';
+let filtroCategoria = 'todos';
+let filtroStatus    = 'todos';
 
 // Logo salva no localStorage (opcional, para consistência)
 (function(){
@@ -521,9 +569,15 @@ function renderCatalogo(){
   loading.style.display = 'none';
 
   let lista = [...todosProdutos];
-  if(filtroAtual === 'disponiveis') lista = lista.filter(p => p.qtd > 0);
-  if(filtroAtual === 'promocao')    lista = lista.filter(p => p.precoPromo && p.precoPromo > 0);
-  if(filtroAtual === 'esgotados')   lista = lista.filter(p => p.qtd <= 0);
+
+  // Filtro de categoria
+  if(filtroCategoria === 'relogios')   lista = lista.filter(p => !p.categoria || p.categoria === 'relogios');
+  if(filtroCategoria === 'acessorios') lista = lista.filter(p => p.categoria === 'acessorios');
+
+  // Filtro de status
+  if(filtroStatus === 'disponiveis') lista = lista.filter(p => p.qtd > 0);
+  if(filtroStatus === 'promocao')    lista = lista.filter(p => p.precoPromo && p.precoPromo > 0);
+  if(filtroStatus === 'esgotados')   lista = lista.filter(p => p.qtd <= 0);
 
   if(!lista.length){
     grid.style.display  = 'none';
@@ -653,12 +707,44 @@ function fecharModal(){
 }
 
 // Filtros
-function filtrar(tipo){
-  filtroAtual = tipo;
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-  document.querySelector(`button[onclick="filtrar('${tipo}')"]`).classList.add('active');
+function filtrarCategoria(cat){
+  filtroCategoria = cat;
+  filtroStatus = 'todos'; // reset status ao trocar categoria
+  document.querySelectorAll('[id^="cat-"], #status-esgotados').forEach(b => b.classList.remove('active'));
+  document.getElementById('cat-'+cat).classList.add('active');
+  // sync menu lateral
+  document.querySelectorAll('[id^="menu-cat-"]').forEach(b => b.classList.remove('active'));
+  const mc = document.getElementById('menu-cat-'+cat);
+  if(mc) mc.classList.add('active');
   renderCatalogo();
 }
+function filtrarStatus(status){
+  filtroStatus = status;
+  // na barra só "esgotados" é visível, os outros vêm do menu
+  document.querySelectorAll('[id^="cat-"]').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('[id^="status-"]').forEach(b => b.classList.remove('active'));
+  if(status === 'esgotados'){
+    document.getElementById('status-esgotados').classList.add('active');
+  }
+  // sync menu lateral
+  document.querySelectorAll('[id^="menu-status-"]').forEach(b => b.classList.remove('active'));
+  const ms = document.getElementById('menu-status-'+status);
+  if(ms) ms.classList.add('active');
+  renderCatalogo();
+}
+
+function abrirMenu(){
+  document.getElementById('side-menu').style.left = '0';
+  document.getElementById('menu-overlay').style.display = 'block';
+  document.body.style.overflow = 'hidden';
+}
+function fecharMenu(){
+  document.getElementById('side-menu').style.left = '-320px';
+  document.getElementById('menu-overlay').style.display = 'none';
+  document.body.style.overflow = '';
+}
+window.abrirMenu = abrirMenu;
+window.fecharMenu = fecharMenu;
 
 window.abrirModal  = abrirModal;
 
