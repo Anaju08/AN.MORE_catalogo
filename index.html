@@ -332,11 +332,7 @@ footer {
 @media(max-width:900px){
   header { padding:0 20px; }
   .hero { padding:36px 20px 32px; }
-  .hero-title {
-  font-family:'Cormorant Garamond', serif;
-  font-size: 28px; font-weight:300; color: var(--pearl);
-  letter-spacing: 0.06em; line-height: 1;
-}
+  .hero-title { font-size: 36px; }
   .filters-bar { padding:0 12px; }
   main { padding:32px 20px; }
   .catalogo-grid { grid-template-columns: repeat(auto-fill,minmax(220px,1fr)); }
@@ -347,11 +343,7 @@ footer {
   .logo-wrap { width:42px; height:42px; }
   .brand-name { font-size:22px; }
   .hero { padding:28px 14px 24px; }
-  .hero-title {
-  font-family:'Cormorant Garamond', serif;
-  font-size: 28px; font-weight:300; color: var(--pearl);
-  letter-spacing: 0.06em; line-height: 1;
-}
+  .hero-title { font-size: 28px; }
   main { padding:24px 12px; }
   .catalogo-grid { grid-template-columns:repeat(2,1fr); gap:1px; }
   .card-nome { font-size:18px; }
@@ -369,7 +361,6 @@ footer {
 ::-webkit-scrollbar-thumb { background:var(--gold-pale); }
 
 .brand-banner { background:var(--black); border-bottom:2px solid var(--gold); display:flex; align-items:center; justify-content:center; overflow:hidden; }
-.brand-banner-img { width:90%; max-width:1100px; min-width:320px; height:auto; display:block; margin-top:-18%; margin-bottom:-13%; }
 </style>
 </head>
 <body>
@@ -451,7 +442,7 @@ footer {
 </style>
 
 <!-- FILTROS -->
-<div style="background:var(--pearl);border-bottom:1px solid var(--pearl3);padding:0 56px;display:flex;align-items:center;overflow-x:auto;white-space:nowrap;-webkit-overflow-scrolling:touch;scrollbar-width:none;">
+<div class="filters-bar" style="background:var(--pearl);border-bottom:1px solid var(--pearl3);padding:0 56px;display:flex;align-items:center;overflow-x:auto;white-space:nowrap;-webkit-overflow-scrolling:touch;scrollbar-width:none;">
   <style>.filters-bar::-webkit-scrollbar{display:none}</style>
   <button class="filter-btn active" id="cat-todos" onclick="filtrarCategoria('todos')">Todos os Produtos</button>
   <button class="filter-btn" id="cat-relogios" onclick="filtrarCategoria('relogios')">Relogios</button>
@@ -533,16 +524,6 @@ const DOC_REF = doc(db, "catalogo", "dados");
 let todosProdutos = [];
 let filtroCategoria = 'todos';
 let filtroStatus    = 'todos';
-
-// Logo salva no localStorage (opcional, para consistência)
-(function(){
-  const saved = localStorage.getItem('relo_logo');
-  if(saved){
-    const img = document.getElementById('logo-img');
-    img.src = saved; img.style.display = 'block';
-    document.getElementById('logo-placeholder').style.display = 'none';
-  }
-})();
 
 onSnapshot(DOC_REF, (snap) => {
   document.getElementById('loading-state').style.display = 'none';
@@ -720,11 +701,12 @@ function filtrarCategoria(cat){
 }
 function filtrarStatus(status){
   filtroStatus = status;
-  // na barra só "esgotados" é visível, os outros vêm do menu
-  document.querySelectorAll('[id^="cat-"]').forEach(b => b.classList.remove('active'));
+  // Remove active only from status buttons in the bar
   document.querySelectorAll('[id^="status-"]').forEach(b => b.classList.remove('active'));
   if(status === 'esgotados'){
     document.getElementById('status-esgotados').classList.add('active');
+    // Also remove active from category buttons since we're now filtering by status
+    document.querySelectorAll('[id^="cat-"]').forEach(b => b.classList.remove('active'));
   }
   // sync menu lateral
   document.querySelectorAll('[id^="menu-status-"]').forEach(b => b.classList.remove('active'));
@@ -763,7 +745,8 @@ function fecharEntregas(){
 window.mostrarEntregas = mostrarEntregas;
 window.fecharEntregas  = fecharEntregas;
 window.fecharModal = fecharModal;
-window.filtrar     = filtrar;
+window.filtrarCategoria = filtrarCategoria;
+window.filtrarStatus    = filtrarStatus;
 </script>
 
 <!-- BOTÃO WHATSAPP FLUTUANTE -->
