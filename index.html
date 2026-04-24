@@ -383,24 +383,28 @@ footer {
 
 /* CART BUTTON ON CARD */
 .btn-carrinho {
-  display: flex; align-items: center; justify-content: center; gap: 6px;
+  display: flex; align-items: center; justify-content: center; gap: 7px;
   width: 100%; margin-top: 14px;
-  padding: 11px 16px;
+  padding: 9px 16px;
   background: transparent;
-  border: 1px solid var(--gold);
-  color: var(--gold);
+  border: none;
+  border-top: 1px solid var(--pearl2);
+  color: var(--ink3);
   font-family: 'Jost', sans-serif;
-  font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase;
+  font-size: 9px; letter-spacing: 0.35em; text-transform: uppercase;
   cursor: pointer;
-  transition: all 0.25s;
+  transition: all 0.3s;
+  opacity: 0.7;
 }
 .btn-carrinho:hover {
-  background: var(--gold);
-  color: var(--black);
+  color: var(--gold);
+  opacity: 1;
+  border-top-color: var(--gold-pale);
 }
 .btn-carrinho.adicionado {
-  background: var(--gold);
-  color: var(--black);
+  color: var(--gold);
+  opacity: 1;
+  border-top-color: var(--gold-pale);
 }
 
 /* CART ICON BADGE (header) */
@@ -441,6 +445,7 @@ footer {
   position: fixed; top: 0; right: -420px;
   width: 100%; max-width: 400px;
   height: 100vh;
+  height: 100dvh;
   background: var(--black);
   border-left: 2px solid var(--gold);
   z-index: 900;
@@ -468,7 +473,9 @@ footer {
 .cart-close:hover { color: var(--gold); }
 .cart-items {
   flex: 1; overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   padding: 16px 28px;
+  min-height: 0;
 }
 .cart-items::-webkit-scrollbar { width: 3px; }
 .cart-items::-webkit-scrollbar-thumb { background: rgba(184,150,46,0.3); }
@@ -1196,6 +1203,8 @@ function abrirCarrinho(){
   document.getElementById('cart-panel').classList.add('open');
   document.getElementById('cart-overlay').classList.add('open');
   document.body.style.overflow = 'hidden';
+  const waBtn = document.getElementById('wa-float-btn');
+  if(waBtn){ waBtn.style.opacity='0'; waBtn.style.pointerEvents='none'; }
   renderCarrinho();
 }
 
@@ -1203,6 +1212,8 @@ function fecharCarrinho(){
   document.getElementById('cart-panel').classList.remove('open');
   document.getElementById('cart-overlay').classList.remove('open');
   document.body.style.overflow = '';
+  const waBtn = document.getElementById('wa-float-btn');
+  if(waBtn){ waBtn.style.opacity='1'; waBtn.style.pointerEvents=''; }
 }
 
 window.adicionarAoCarrinho = adicionarAoCarrinho;
@@ -1218,7 +1229,7 @@ window.filtrarStatus    = filtrarStatus;
 </script>
 
 <!-- BOTÃO WHATSAPP FLUTUANTE -->
-<a href="https://wa.me/5511994024632?text=Ol%C3%A1%21%20Estou%20interessada%20nos%20rel%C3%B3gios"
+<a id="wa-float-btn" href="https://wa.me/5511994024632?text=Ol%C3%A1%21%20Estou%20interessada%20nos%20rel%C3%B3gios"
    target="_blank"
    style="
      position: fixed;
@@ -1233,7 +1244,7 @@ window.filtrarStatus    = filtrarStatus;
      justify-content: center;
      box-shadow: 0 4px 20px rgba(37,211,102,0.45);
      z-index: 9999;
-     transition: transform 0.25s, box-shadow 0.25s;
+     transition: transform 0.25s, box-shadow 0.25s, opacity 0.2s;
      text-decoration: none;
    "
    onmouseover="this.style.transform='scale(1.1)';this.style.boxShadow='0 6px 28px rgba(37,211,102,0.6)'"
