@@ -42,19 +42,18 @@ header {
 }
 .header-brand { display:flex; align-items:center; gap:20px; padding:10px 0; }
 .logo-wrap {
-  width:52px; height:52px;
-  border: 1px solid rgba(184,150,46,0.5);
+  height:52px;
   display:flex; align-items:center; justify-content:center;
-  background: rgba(184,150,46,0.08); overflow:hidden; flex-shrink:0;
+  overflow:hidden; flex-shrink:0;
 }
-.logo-wrap img { width:100%; height:100%; object-fit:contain; }
+.logo-wrap img { height:100%; width:auto; object-fit:contain; }
 .logo-placeholder { font-size:22px; color:var(--gold-light); }
 .brand-name {
   font-family:'Cormorant Garamond', serif;
   font-size:28px; font-weight:300; letter-spacing:0.15em; color:var(--gold-light);
 }
 .brand-name em { font-style:italic; color:var(--pearl); }
-.brand-sub { font-size:10px; letter-spacing:0.45em; text-transform:uppercase; color:rgba(240,228,192,0.65); margin-top:3px; }
+.brand-sub { font-size:12px; letter-spacing:0.45em; text-transform:uppercase; color:rgba(240,228,192,0.65); margin-top:3px; }
 
 .header-right {
   display: flex; align-items: center;
@@ -397,6 +396,9 @@ footer {
 <!-- HEADER ESCURO -->
 <header>
   <div class="header-brand">
+    <div class="logo-wrap">
+      <img src="data:image/jpeg;base64," alt="AN.MORE Accessories">
+    </div>
     <div>
       <div class="brand-sub">Relógios &amp; Acessórios</div>
     </div>
@@ -410,7 +412,7 @@ footer {
   <div class="hero-inner">
     <div class="hero-eyebrow">Coleção Disponível</div>
     <div class="hero-title" style="font-size:56px; letter-spacing:0.08em; line-height:1.05;"><em>Vitrine</em> Virtual</div>
-    <div class="hero-sub" style="font-size:19px;">Peças cuidadosamente selecionadas · Originais e à prova d'água · Entrega rápida e retirada em Ferraz de Vasconcelos · <strong style="color:var(--gold-light);">Vendas no varejo e atacado</strong></div>
+    <div class="hero-sub" style="font-size:22px;">Peças cuidadosamente selecionadas · Originais e à prova d'água · Entrega rápida e retirada em Ferraz de Vasconcelos · <strong style="color:var(--gold-light);">Vendas no varejo e atacado</strong></div>
     <div class="hero-ornament">
       <div class="hero-line"></div>
       <div class="hero-diamond"></div>
