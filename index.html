@@ -345,6 +345,15 @@ footer {
   .brand-name { font-size:22px; }
   .hero { padding:28px 14px 24px; }
   .hero-title { font-size: 28px; }
+  .hero-sub {
+    white-space: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    max-width: 100%;
+    padding-bottom: 4px;
+    scrollbar-width: none;
+  }
+  .hero-sub::-webkit-scrollbar { display: none; }
   main { padding:24px 12px; }
   .catalogo-grid { grid-template-columns:repeat(2,1fr); gap:1px; }
   .card-nome { font-size:18px; }
@@ -388,7 +397,7 @@ footer {
   <div class="hero-inner">
     <div class="hero-eyebrow">Coleção Disponível</div>
     <div class="hero-title" style="font-size:56px; letter-spacing:0.08em; line-height:1.05;"><em>Vitrine</em> Virtual</div>
-    <div class="hero-sub">Peças cuidadosamente selecionadas · Originais e à prova d'água · Entrega rápida e retirada em Ferraz de Vasconcelos · <strong style="color:var(--gold-light);">Vendas no varejo e atacado</strong></div>
+    <div class="hero-sub" style="font-size:19px;">Peças cuidadosamente selecionadas · Originais e à prova d'água · Entrega rápida e retirada em Ferraz de Vasconcelos · <strong style="color:var(--gold-light);">Vendas no varejo e atacado</strong></div>
     <div class="hero-ornament">
       <div class="hero-line"></div>
       <div class="hero-diamond"></div>
@@ -841,6 +850,16 @@ window.filtrarStatus    = filtrarStatus;
 
       <div style="display:flex;gap:18px;align-items:flex-start;padding:20px 22px;background:var(--gold-bg);border:1px solid var(--gold-pale);border-left:3px solid var(--gold);">
         <div style="flex-shrink:0;margin-top:2px;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </div>
+        <div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--ink);margin-bottom:4px;">Showroom & Retirada</div>
+          <div style="font-size:13px;color:var(--ink2);line-height:1.6;">Veja nossas peças pessoalmente e retire em <strong>Ferraz de Vasconcelos</strong> com hora marcada.</div>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:18px;align-items:flex-start;padding:20px 22px;background:var(--pearl);border:1px solid var(--pearl3);border-left:3px solid var(--gold);">
+        <div style="flex-shrink:0;margin-top:2px;">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5"><path d="M1 3h15v13H1z"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
         </div>
         <div>
@@ -866,16 +885,6 @@ window.filtrarStatus    = filtrarStatus;
         <div>
           <div style="font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--ink);margin-bottom:4px;">Metrô com hora marcada</div>
           <div style="font-size:13px;color:var(--ink2);line-height:1.6;">Entregas na <strong>Estação Ferraz de Vasconcelos</strong> e <strong>Guilhermina-Esperança</strong> com hora marcada.</div>
-        </div>
-      </div>
-
-      <div style="display:flex;gap:18px;align-items:flex-start;padding:20px 22px;background:var(--pearl);border:1px solid var(--pearl3);border-left:3px solid var(--gold);">
-        <div style="flex-shrink:0;margin-top:2px;">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-        </div>
-        <div>
-          <div style="font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--ink);margin-bottom:4px;">Showroom & Retirada</div>
-          <div style="font-size:13px;color:var(--ink2);line-height:1.6;">Veja nossas peças pessoalmente e retire em <strong>Ferraz de Vasconcelos</strong> com hora marcada.</div>
         </div>
       </div>
 
