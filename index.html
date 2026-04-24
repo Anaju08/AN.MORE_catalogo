@@ -797,6 +797,7 @@ footer {
         <div class="modal-qtd-val" id="modal-qtd"></div>
       </div>
       <div id="modal-desc" class="modal-desc" style="display:none"></div>
+      <div id="modal-btn-carrinho-wrap" style="margin-top:24px;"></div>
     </div>
   </div>
 </div>
@@ -992,6 +993,33 @@ function abrirModal(id){
     descEl.textContent = p.descricao;
   } else {
     descEl.style.display = 'none';
+  }
+
+  // Botão carrinho no modal
+  const btnWrap = document.getElementById('modal-btn-carrinho-wrap');
+  if(btnWrap){
+    if(esgotado){
+      btnWrap.innerHTML = '';
+    } else {
+      const jaNoCarrinho = carrinho.find(x => x.id === p.id);
+      btnWrap.innerHTML = `<button id="modal-btn-cart" onclick="adicionarAoCarrinhoModal('${p.id}')"
+        style="
+          display:flex;align-items:center;justify-content:center;gap:8px;
+          width:100%;padding:14px 20px;
+          background:${jaNoCarrinho ? 'var(--gold)' : 'transparent'};
+          border:1px solid var(--gold);
+          color:${jaNoCarrinho ? 'var(--black)' : 'var(--gold)'};
+          font-family:'Jost',sans-serif;font-size:10px;letter-spacing:0.35em;text-transform:uppercase;
+          cursor:pointer;transition:all 0.25s;
+        "
+        onmouseover="if(!this.classList.contains('ativo')){this.style.background='var(--gold)';this.style.color='var(--black)';}"
+        onmouseout="if(!this.classList.contains('ativo')){this.style.background='transparent';this.style.color='var(--gold)';}">
+        ${jaNoCarrinho
+          ? `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> No carrinho`
+          : `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg> Adicionar ao carrinho`
+        }
+      </button>`;
+    }
   }
 
   document.getElementById('modal-bg').classList.add('open');
@@ -1215,6 +1243,24 @@ function fecharCarrinho(){
   const waBtn = document.getElementById('wa-float-btn');
   if(waBtn){ waBtn.style.opacity='1'; waBtn.style.pointerEvents=''; }
 }
+
+function adicionarAoCarrinhoModal(id){
+  adicionarAoCarrinho(id);
+  // Atualiza visual do botão no modal
+  const btn = document.getElementById('modal-btn-cart');
+  if(!btn) return;
+  const noCarrinho = carrinho.find(x => x.id === id);
+  if(noCarrinho){
+    btn.style.background = 'var(--gold)';
+    btn.style.color = 'var(--black)';
+    btn.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> No carrinho`;
+  } else {
+    btn.style.background = 'transparent';
+    btn.style.color = 'var(--gold)';
+    btn.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg> Adicionar ao carrinho`;
+  }
+}
+window.adicionarAoCarrinhoModal = adicionarAoCarrinhoModal;
 
 window.adicionarAoCarrinho = adicionarAoCarrinho;
 window.removerDoCarrinho   = removerDoCarrinho;
