@@ -379,6 +379,54 @@ footer {
 ::-webkit-scrollbar-track { background:var(--pearl2); }
 ::-webkit-scrollbar-thumb { background:var(--gold-pale); }
 
+/* TAGLINE */
+.hero-tagline {
+  margin: 22px 0 18px;
+}
+.hero-tagline-ornament {
+  display: flex; align-items: center; gap: 12px;
+  max-width: 320px; margin: 0 auto 10px;
+}
+.hero-tagline-line {
+  flex: 1; height: 1px; background: rgba(184,150,46,0.3);
+}
+.hero-tagline-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(17px, 3vw, 23px);
+  font-style: italic;
+  font-weight: 300;
+  color: rgba(240,228,192,0.75);
+  text-align: center;
+  letter-spacing: 0.04em;
+  line-height: 1.5;
+  margin: 0 0 10px;
+  padding: 0 12px;
+}
+@keyframes marqueeText {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-33.33%); }
+}
+@keyframes slideInfinite {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.slideshow-card {
+  width: 160px; height: 160px; flex-shrink: 0;
+  overflow: hidden;
+  background: var(--pearl);
+  border: 1px solid rgba(184,150,46,0.15);
+}
+.slideshow-card img {
+  width: 100%; height: 100%; object-fit: cover;
+  display: block;
+  transition: transform 0.4s;
+}
+@media(max-width:480px){
+  .hero-tagline-text { font-size: 16px; }
+  .slideshow-card { width: 130px; height: 130px; }
+}
+
+/* EXISTING STYLES BELOW */
 .brand-banner { background:var(--black); border-bottom:2px solid var(--gold); display:flex; align-items:center; justify-content:center; overflow:hidden; }
 
 /* CART BUTTON ON CARD */
@@ -599,6 +647,16 @@ footer {
   <div class="header-brand">
     <div>
       <div class="brand-sub">Relógios &amp; Acessórios</div>
+      <div style="
+        display:inline-flex;align-items:center;gap:6px;
+        margin-top:5px;
+        padding:3px 10px 3px 8px;
+        border:1px solid rgba(184,150,46,0.4);
+        background:rgba(184,150,46,0.07);
+      ">
+        <svg width="7" height="7" viewBox="0 0 10 10" fill="var(--gold)"><polygon points="5,0 6.5,3.5 10,3.8 7.5,6.2 8.1,10 5,8.2 1.9,10 2.5,6.2 0,3.8 3.5,3.5"/></svg>
+        <span style="font-family:'Jost',sans-serif;font-size:8px;letter-spacing:0.45em;text-transform:uppercase;color:var(--gold);">Peças Limitadas</span>
+      </div>
     </div>
   </div>
   <button class="cart-trigger" onclick="abrirCarrinho()" aria-label="Carrinho">
@@ -623,6 +681,35 @@ footer {
       <div class="hero-line"></div>
       <div class="hero-diamond"></div>
     </div>
+  </div>
+</div>
+
+<!-- TAGLINE -->
+<div style="
+  background: var(--white);
+  padding: 28px 24px;
+  text-align: center;
+  border-bottom: 1px solid var(--pearl2);
+">
+  <div style="display:flex;align-items:center;gap:14px;max-width:400px;margin:0 auto 10px;">
+    <div style="flex:1;height:1px;background:rgba(184,150,46,0.25);"></div>
+    <svg width="8" height="8" viewBox="0 0 10 10" fill="var(--gold)" opacity="0.5"><polygon points="5,0 6.5,3.5 10,3.8 7.5,6.2 8.1,10 5,8.2 1.9,10 2.5,6.2 0,3.8 3.5,3.5"/></svg>
+    <div style="flex:1;height:1px;background:rgba(184,150,46,0.25);"></div>
+  </div>
+  <p style="
+    font-family:'Cormorant Garamond',serif;
+    font-size:clamp(17px,3.5vw,22px);
+    font-style:italic;
+    font-weight:300;
+    color:var(--ink2);
+    letter-spacing:0.03em;
+    line-height:1.5;
+    margin:0 0 10px;
+  ">Porque toda hora é hora de se sentir linda</p>
+  <div style="display:flex;align-items:center;gap:14px;max-width:400px;margin:0 auto;">
+    <div style="flex:1;height:1px;background:rgba(184,150,46,0.25);"></div>
+    <svg width="8" height="8" viewBox="0 0 10 10" fill="var(--gold)" opacity="0.5"><polygon points="5,0 6.5,3.5 10,3.8 7.5,6.2 8.1,10 5,8.2 1.9,10 2.5,6.2 0,3.8 3.5,3.5"/></svg>
+    <div style="flex:1;height:1px;background:rgba(184,150,46,0.25);"></div>
   </div>
 </div>
 
@@ -721,6 +808,25 @@ footer {
   </div>
 </div>
 
+<!-- PEÇAS LIMITADAS + SLIDESHOW -->
+<div id="slideshow-section" style="display:none;">
+  <!-- Slideshow -->
+  <div style="background:var(--pearl2);padding:32px 0;overflow:hidden;position:relative;" id="slideshow-wrap">
+    <div style="
+      font-size:9px;letter-spacing:0.45em;text-transform:uppercase;
+      color:var(--ink3);text-align:center;margin-bottom:20px;
+      font-family:'Jost',sans-serif;
+    ">Destaques da coleção</div>
+    <div style="overflow:hidden;position:relative;">
+      <div id="slideshow-track" style="
+        display:flex;gap:16px;
+        animation: slideInfinite 30s linear infinite;
+        width:max-content;
+      "></div>
+    </div>
+  </div>
+</div>
+
 <!-- MAIN -->
 <main>
   <div id="loading-state" class="loading-state">
@@ -736,6 +842,38 @@ footer {
     <div class="empty-sub">Volte em breve</div>
   </div>
 </main>
+
+<!-- FOOTER CTA -->
+<div style="
+  background: var(--black);
+  border-top: 2px solid var(--gold);
+  padding: 52px 28px 44px;
+  text-align: center;
+">
+  <div style="font-family:'Cormorant Garamond',serif;font-size:13px;letter-spacing:0.5em;text-transform:uppercase;color:rgba(240,228,192,0.4);margin-bottom:14px;">Ficou com dúvidas?</div>
+  <div style="font-family:'Cormorant Garamond',serif;font-size:clamp(26px,5vw,38px);font-weight:300;font-style:italic;color:var(--pearl);line-height:1.3;margin-bottom:8px;">
+    Gostou de algum modelo?
+  </div>
+  <div style="font-family:'Cormorant Garamond',serif;font-size:clamp(20px,4vw,28px);font-weight:300;color:var(--gold-light);margin-bottom:32px;">
+    Me chame no WhatsApp ✦
+  </div>
+  <a href="https://wa.me/5511994024632?text=Ol%C3%A1%21%20Vi%20o%20cat%C3%A1logo%20e%20gostei%20de%20alguns%20modelos%21%20Pode%20me%20ajudar%3F"
+     target="_blank"
+     style="
+       display:inline-flex;align-items:center;gap:12px;
+       padding:16px 36px;
+       background:#25D366;
+       color:white;
+       font-family:'Jost',sans-serif;font-size:11px;letter-spacing:0.4em;text-transform:uppercase;
+       text-decoration:none;
+       transition:background 0.25s, transform 0.2s;
+     "
+     onmouseover="this.style.background='#1da851';this.style.transform='translateY(-2px)'"
+     onmouseout="this.style.background='#25D366';this.style.transform='translateY(0)'">
+    <svg width="20" height="20" viewBox="0 0 32 32" fill="white"><path d="M16 2C8.268 2 2 8.268 2 16c0 2.478.647 4.897 1.876 7.023L2 30l7.178-1.852A13.94 13.94 0 0 0 16 30c7.732 0 14-6.268 14-14S23.732 2 16 2zm6.29 19.383c-.344-.172-2.036-1.003-2.352-1.117-.316-.115-.546-.172-.776.172-.23.344-.89 1.117-1.09 1.347-.2.23-.4.258-.744.086-.344-.172-1.453-.535-2.768-1.707-1.023-.912-1.713-2.037-1.913-2.381-.2-.344-.021-.53.15-.701.155-.154.344-.4.516-.6.172-.2.23-.344.344-.573.115-.23.057-.43-.029-.602-.086-.172-.776-1.87-1.063-2.56-.28-.672-.563-.581-.776-.592l-.66-.011c-.23 0-.602.086-.917.43s-1.205 1.175-1.205 2.865 1.233 3.325 1.405 3.554c.172.23 2.426 3.706 5.878 5.196.822.355 1.463.567 1.963.726.824.263 1.575.226 2.168.137.661-.099 2.036-.832 2.323-1.635.287-.803.287-1.49.2-1.635-.085-.143-.315-.229-.659-.4z"/></svg>
+    Falar agora
+  </a>
+</div>
 
 <!-- FOOTER -->
 <footer>
@@ -836,6 +974,7 @@ onSnapshot(DOC_REF, (snap) => {
     todosProdutos = [];
   }
   renderCatalogo();
+  popularSlideshow(todosProdutos);
 }, (err) => {
   console.error(err);
   document.getElementById('loading-state').style.display = 'none';
@@ -1118,6 +1257,31 @@ function checkHashFiltro(){
 }
 window.addEventListener('load', checkHashFiltro);
 window.addEventListener('hashchange', checkHashFiltro);
+// Popula slideshow com fotos dos produtos
+function popularSlideshow(produtos){
+  const track = document.getElementById('slideshow-track');
+  const section = document.getElementById('slideshow-section');
+  if(!track || !section) return;
+
+  // Pega apenas produtos com foto
+  const comFoto = produtos.filter(p => p.foto && p.foto.trim() !== '');
+  if(comFoto.length < 2){ section.style.display = 'none'; return; }
+
+  // Duplica pra loop infinito
+  const itens = [...comFoto, ...comFoto];
+  track.innerHTML = itens.map(p =>
+    `<div class="slideshow-card"><img src="${p.foto}" alt="${p.nome}" loading="lazy"></div>`
+  ).join('');
+
+  section.style.display = 'block';
+
+  // Ajusta velocidade baseado na quantidade
+  const duracao = Math.max(20, comFoto.length * 3.5);
+  track.style.animationDuration = duracao + 's';
+}
+
+window.popularSlideshow = popularSlideshow;
+
 // ══════════════════════════════════════════════════
 // 🛒 SISTEMA DE CARRINHO
 // ══════════════════════════════════════════════════
